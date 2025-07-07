@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kuliner Bogor</title>
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,700;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- feather icon -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    <!-- mystyle -->
+    <link rel="stylesheet" href="css/style.css" />
+
+    <!-- Alpine js start -->
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    <!-- App-->
+    <script src="src/app.js"></script>
+  </head>
+  <body>
+    <!-- navbar start -->
+
+    <nav class="navbar" x-data>
+      <a href="#" class="navbar-logo">Kuliner<span>Bogor</span>.</a>
+
+      <div class="navbar-nav">
+        <a href="#home">Home</a>
+        <a href="#about">Tentang Kami</a>
+        <a href="#menu">Menu</a>
+        <a href="#product">Produk</a>
+        <a href="#contact">Kontak</a>
+      </div>
+
+      <div class="navbar-extra">
+        <a href="#" id="search"><i data-feather="search"></i></a>
+        <a href="#" id="shopping-bag-button">
+          <i data-feather="shopping-bag"></i>
+          <span
+            class="quantity-badge"
+            x-show="$store.shopping.quantity"
+            x-text="$store.shopping.quantity"
+          ></span>
+        </a>
+        <a href="#" id="menu-kuliner"><i data-feather="menu"></i></a>
+      </div>
+      <!-- Search form start -->
+      <div class="search-form">
+        <input type="search" id="search-box" placeholder="search here..." />
+        <label for="search-box"><i data-feather="search"></i></label>
+      </div>
+      <!-- Search form end -->
+      <!-- shoping cart start -->
+      <div class="shoping-cart">
+        <template
+          x-for="(item, index) in  $store.shopping.items"
+          x-keys="index"
+        >
+          <div class="cart-item">
+            <img :src="`img/${item.img}`" alt="item.name" />
+            <div class="item-detail">
+              <h3 x-text="item.name"></h3>
+              <div class="item-price">
+                <span x-text="rupiah(item.price)"></span> &times;
+                <button id="remove" @click="$store.shopping.remove(item.id)">
+                  &minus;
+                </button>
+                <span x-text="item.quantity">1</span>
+                <button id="add" @click="$store.shopping.add(item)">
+                  &plus;
+                </button>
+                &equals;
+                <span x-text="rupiah(item.total)"></span>
+              </div>
+            </div>
+          </div>
+        </template>
+        <h4 x-show="!$store.shopping.items.length">
+          Your shopping bag is empty
+        </h4>
+        <h5 x-show="$store.shopping.items.length">
+          Total : <span x-text="rupiah($store.shopping.total)"></span>
+        </h5>
+        <div class="form-container" x-show="$store.shopping.items.length">
+          <form action="" id="checkoutForm">
+            <h6>Customer Detail</h6>
+
+            <label for="name">
+              <span>Name</span>
+              <input type="text" name="name" id="name" />
+            </label>
+            <label for="email">
+              <span>Email</span>
+              <input type="email" name="email" id="email" />
+            </label>
+            <label for="phone">
+              <span>Phone</span>
+              <input type="number" name="phone" id="phone" autocomplete="off" />
+            </label>
+            <button
+              class="checkout-button"
+              type="button"
+              id="checkout-button"
+              value="checkout"
+            >
+              CheckOut
+            </button>
+          </form>
+        </div>
+      </div>
+      <!-- shoping cart end -->
+    </nav>
+    <!-- navbar end -->
+    <!-- hero section start-->
+    <section class="hero" id="home">
+      <div class="mask-container">
+        <main class="content">
+          <h1>Siap menjelajahi kelezatan menu-kuliner <span>Bogor?</span></h1>
+          <p>
+            Kuliner Bogor bukan sekadar tempat makan, ini tempat di mana rasa,
+            budaya, dan cerita lokal bertemu.
+          </p>
+        </main>
+      </div>
+    </section>
+    <!-- <a href="#" class="cta">Yuk Jelajahi Kelezatan Khas Bogor!</a> -->
+    <!-- hero section end-->
+    <!-- about section start -->
+    <section id="about" class="about">
+      <h2><span>Tentang</span> Kami</h2>
+      <div class="row">
+        <div class="about-img">
+          <img src="/img/makanan.jpeg" alt="Tentang Kami" />
+        </div>
+        <div class="content">
+          <h3>Kenapa harus ke kota Bogor?</h3>
+          <p>
+            Kuliner Bogor merupakan kekayaan yang khas, didukung oleh budaya
+            Sunda dan udara sejuk kota hujan. Makanan seperti Soto Mie, Toge
+            Goreng, dan Asinan menjadi ikon dengan cita rasa yang unik dan penuh
+            cerita. Dari warung kaki lima hingga tempat makan legendaris,
+            semuanya tersebar di berbagai sudut kota. Melalui situs ini,
+            pengunjung diajak tidak hanya mencicipi, tetapi juga mengenal budaya
+            dan nilai lokal yang melekat pada setiap hidangan, karena kuliner
+            adalah cerminan jiwa kota Bogor.
+          </p>
+        </div>
+      </div>
+    </section>
+    <!-- about section end -->
+    <!-- menu section  start-->
+    <section id="menu" class="menu">
+      <h2><span>Menu</span> Kami</h2>
+      <p>
+        Temukan cita rasa khas Bogor dalam setiap hidangan kami. Dari makanan
+        tradisional hingga jajanan legendaris, semua tersaji dengan kelezatan
+        yang autentik.
+      </p>
+
+      <div class="row">
+        <div class="menu-card">
+          <img src="img/Asinan.jpg" class="menu-card-img" />
+          <h3 class="menu-card-title">-Asinan-</h3>
+          <p class="menu-card-price">IDR 25K</p>
+        </div>
+        <div class="menu-card">
+          <img src="img/Doclang.jpg" alt="doclang" class="menu-card-img" />
+          <h3 class="menu-card-title">-Doclang-</h3>
+          <p class="menu-card-price">IDR 20K</p>
+        </div>
+        <div class="menu-card">
+          <img src="img/kue2.png" alt="dongkal" class="menu-card-img" />
+          <h3 class="menu-card-title">-Dongkal-</h3>
+          <p class="menu-card-price">IDR 15K</p>
+        </div>
+        <div class="menu-card">
+          <img src="img/soto.jpg" alt="sotomie" class="menu-card-img" />
+          <h3 class="menu-card-title">-Soto mie-</h3>
+          <p class="menu-card-price">IDR 25K</p>
+        </div>
+        <div class="menu-card">
+          <img src="img/TOge.jpg" alt="toge" class="menu-card-img" />
+          <h3 class="menu-card-title">-Toge goreng-</h3>
+          <p class="menu-card-price">IDR 20K</p>
+        </div>
+      </div>
+    </section>
+    <!-- menu section end -->
+
+    <!-- produk section start -->
+    <section class="product" id="product" x-data="products">
+      <h2><span>Produk Unggulan</span> Kami</h2>
+      <p>
+        Rasakan kelezatan snack Bogor autentik dengan resep turun-temurun dan
+        bahan pilihan. Setiap sajian kami mengandung cerita dan cita rasa khas
+        Kota Hujan.
+      </p>
+      <div class="row">
+        <template x-for="(item, index) in items" x-key="index">
+          <div class="product-card">
+            <div class="product-icons">
+              <a href="#" @click.prevent="$store.shopping.add(item)">
+                <svg
+                  width="24"
+                  height="24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <use href="img/feather-sprite.svg#shopping-cart" />
+                </svg>
+              </a>
+              <a href="#" @click.prevent="$store.modal.open(item.id)">
+                <svg
+                  width="24"
+                  height="24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <use href="img/feather-sprite.svg#eye" />
+                </svg>
+              </a>
+            </div>
+            <div class="product-image">
+              <img :src="`img/${item.img}`" :alt="item.name" />
+            </div>
+            <div class="product-konten">
+              <h3 x-text="item.name"></h3>
+              <div class="product-stars">
+                <svg
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <use href="img/feather-sprite.svg#star" />
+                </svg>
+                <svg
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <use href="img/feather-sprite.svg#star" />
+                </svg>
+                <svg
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <use href="img/feather-sprite.svg#star" />
+                </svg>
+                <svg
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <use href="img/feather-sprite.svg#star" />
+                </svg>
+                <svg
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <use href="img/feather-sprite.svg#star" />
+                </svg>
+              </div>
+              <div class="product-price">
+                <span x-text="rupiah(item.price)"></span>
+              </div>
+            </div>
+          </div>
+        </template>
+      </div>
+    </section>
+    <!-- produk section end -->
+
+    <!-- contact section start -->
+    <section id="contact" class="contact">
+      <h2><span>Hubungi</span> Kami</h2>
+      <p>
+        Punya pertanyaan, kritik, saran, atau ingin kerja sama? Kami siap
+        mendengar dari kamu! Jangan ragu untuk menghubungi kami melalui
+        informasi di bawah ini:
+      </p>
+      <div class="row">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3963.3182720119744!2d106.79920667356035!3d-6.607315964586655!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69c5c26b334c3f%3A0x2187caad4263769b!2sJl.%20Suryakencana%2C%20Kota%20Bogor%2C%20Jawa%20Barat!5e0!3m2!1sid!2sid!4v1750453525328!5m2!1sid!2sid"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          class="maps"
+        ></iframe>
+
+        <form action="">
+          <div class="input-group">
+            <i data-feather="user"></i>
+            <input type="text" placeholder="Nama" />
+          </div>
+          <div class="input-group">
+            <i data-feather="mail"></i>
+            <input type="text" placeholder="Email" />
+          </div>
+          <div class="input-group">
+            <i data-feather="phone-call"></i>
+            <input type="text" placeholder="No.Hp" />
+          </div>
+          <button type="submit" class="btn">Kirim pesan</button>
+        </form>
+      </div>
+    </section>
+    <!-- contact section end -->
+    <!-- footer start -->
+    <footer>
+      <div class="sosials">
+        <a href="#">
+          <i data-feather="instagram"></i>
+        </a>
+        <a href="#">
+          <i data-feather="x"></i>
+        </a>
+        <a href="#">
+          <i data-feather="facebook"></i>
+        </a>
+      </div>
+      <div class="link">
+        <a href="#home">Home</a>
+        <a href="#about">Tentang Kami</a>
+        <a href="#menu">Menu</a>
+        <a href="#contact">Kontak</a>
+      </div>
+      <div class="credit">
+        <p>Created by <a href="">moen</a>. | &copy : 2025</p>
+      </div>
+    </footer>
+    <!-- footer end -->
+
+    <!-- modal box item detail start -->
+    <div class="modal" id="item-detail-modal1">
+      <div class="modal-container">
+        <a href="#" class="close-icon" @click.prevent="$store.modal.close()">
+          <i data-feather="x-circle"></i>
+        </a>
+        <div class="modal-content">
+          <img src="img/tape.jpg" alt="product 1" />
+          <div class="product-content">
+            <h3>Tapai Singkong</h3>
+            <p>
+              Tapai singkong adalah makanan tradisional yang terbuat dari
+              singkong yang difermentasi dengan ragi, menghasilkan rasa manis,
+              sedikit asam, dan aroma khas. Teksturnya lembut dan sering
+              disajikan sebagai camilan atau pelengkap hidangan penutup.
+            </p>
+            <div class="product-stars">
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star" class="star-full"></i>
+            </div>
+            <div class="product-price">IDR 40K <span>IDR 50K</span></div>
+            <a href="#"
+              ><i data-feather="shopping-bag"></i> <span>add to cart</span></a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal" id="item-detail-modal2">
+      <div class="modal-container">
+        <a href="#" class="close-icon"><i data-feather="x-circle"></i></a>
+        <div class="modal-content">
+          <img src="img/basreng.jpg" alt="product 2" />
+          <div class="product-content">
+            <h3>Basreng</h3>
+            <p>
+              Basreng adalah camilan khas Indonesia yang terbuat dari bakso yang
+              diiris tipis, lalu digoreng hingga renyah. Rasanya gurih dan
+              pedas, cocok dinikmati sebagai teman santai atau cemilan
+              sehari-hari.
+            </p>
+            <div class="product-stars">
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star" class="star-full"></i>
+            </div>
+            <div class="product-price">IDR 30K <span>IDR 40K</span></div>
+            <a href="#"
+              ><i data-feather="shopping-bag"></i> <span>add to cart</span></a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal" id="item-detail-modal3">
+      <div class="modal-container">
+        <a href="#" class="close-icon"><i data-feather="x-circle"></i></a>
+        <div class="modal-content">
+          <img src="img/cake.png" alt="product 3" />
+          <div class="product-content">
+            <h3>Kue Talas Bogor</h3>
+            <p>
+              Kue talas Bogor merupakan oleh-oleh khas dari Bogor yang berbahan
+              dasar talas. Teksturnya lembut seperti bolu, dengan cita rasa
+              manis legit yang khas dan sering dipadukan dengan berbagai topping
+              seperti keju atau cokelat.
+            </p>
+            <div class="product-stars">
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star" class="star-full"></i>
+            </div>
+            <div class="product-price">IDR 120K <span>IDR 150K</span></div>
+            <a href="#"
+              ><i data-feather="shopping-bag"></i> <span>add to cart</span></a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal" id="item-detail-modal4">
+      <div class="modal-container">
+        <a href="#" class="close-icon"><i data-feather="x-circle"></i></a>
+        <div class="modal-content">
+          <img src="img/chips.png" alt="product 4" />
+          <div class="product-content">
+            <h3>Kripik Talas Bogor</h3>
+            <p>
+              Keripik talas Bogor adalah camilan renyah yang dibuat dari irisan
+              tipis talas yang digoreng garing. Memiliki rasa gurih yang alami
+              dan cocok dijadikan oleh-oleh atau teman minum teh.
+            </p>
+            <div class="product-stars">
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star" class="star-full"></i>
+            </div>
+            <div class="product-price">IDR 30K <span>IDR 40K</span></div>
+            <a href="#"
+              ><i data-feather="shopping-bag"></i> <span>add to cart</span></a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- modal box item detail end -->
+
+    <!-- feather icon -->
+    <script>
+      feather.replace();
+    </script>
+    <!-- my javascript -->
+    <script src="js/script.js"></script>
+  </body>
+</html>
